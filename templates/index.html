@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Transformation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+    .col-example {
+      padding: 1rem;
+      border: 2px solid #fff;
+      text-align: center;
+    }  
+  </style>
+</head>
+<body>
+	<div class="container justify-content-center">                                       
+		<form id="form-demo" onsubmit="return false">
+			<div class="container my-4">
+				<div>
+					<div>
+						<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-body">
+										<h2>Upload Image</h2>
+										<p>Choose the image to upload to the server</p>
+										<input type="file" id="file" name="file" accept="image/jpeg"><br><br>
+										<button type="submit" id="button-send" class="btn btn-primary">Send and Process</button>                      
+									</div>	
+								</div>
+							</div>
+						</div>									
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<script src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
+			
+		<script>					
+      function sendFormData(){
+          $("#button-send").prop("disabled", true);
+          $("#button-send").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+          var formData = new FormData($("#form-demo").get(0));
+          var ajaxUrl = "/image/upload";
+          $.ajax({
+          url : ajaxUrl,
+          type : "POST",
+          data : formData,
+          contentType : false,
+          processData : false
+          }).done(function(response){
+              $("#button-send").prop("disabled", false);
+              $("#button-send").html('Send and Process');
+          alert(response.message);
+          }).fail(function(e){
+              $("#button-send").prop("disabled", false);
+              $("#button-send").html('Send and Process');
+              alert('error:'+e);
+          }).always(function() {
+
+          });
+      }
+      $("#button-send").click(sendFormData);		  		 
+		</script>
+	</div>
+
+</body>
+</html>
